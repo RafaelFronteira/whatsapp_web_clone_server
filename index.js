@@ -109,6 +109,10 @@ function startConnections() {
             });
         });
 
+        socket.on('private endcall', ({to}) => {
+            socket.to(to).to(socket.userID).emit('private endcall', {});
+        });
+
         socket.on("disconnect", async () => {
             const matchingSockets = await io.in(socket.userID).fetchSockets();
             const isDisconnected = matchingSockets.size === 0;
